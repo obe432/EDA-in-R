@@ -1,0 +1,73 @@
+---
+title: "Activity 1"
+author: "obe432"
+date: "2024-11-07"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load libraries}
+library(tidyverse)
+```
+
+
+```{r load dataset}
+library(readr)
+X10_2021PHC_CSV <- read_csv("C:/Users/Mayback/Desktop/NSS AT GSS (RESAERCH AND DATA SCIENCE)/Dataset/10%_2021PHC_CSV.zip")
+View(X10_2021PHC_CSV)
+```
+
+
+1.number of obsevartion and number of variables
+```{r number of rows and columns}
+ncol(X10_2021PHC_CSV)
+nrow(X10_2021PHC_CSV)
+```
+
+2. identify all variables with missing data
+```{r missing value (N/A)}
+colnames(X10_2021PHC_CSV)
+
+colSums(is.na(X10_2021PHC_CSV))
+
+```
+
+3. type of variable
+```{r structure of the dataset}
+str(X10_2021PHC_CSV)
+```
+
+4. without applying weight to the data generate 
+
+*number of male and female by region
+```{r number of a12d by region }
+gender_region_count <- X10_2021PHC_CSV %>%
+group_by(region, a12d) %>%
+summarise(count = n()) %>%
+arrange(region)
+gender_region_count
+
+```
+
+*number of male and female by sector of employment
+```{r no of a12d by sector of employment}
+gender_sector_count <- X10_2021PHC_CSV%>%
+group_by(sector, a12d) %>%
+summarise(count = n()) %>%
+arrange(sector)
+gender_sector_count
+```
+
+
+*number of girls below 12 years who are married
+```{r no of female<12yrs who are married}
+girls_married_count <- X10_2021PHC_CSV %>%
+dplyr::filter(a12d == "female", a12e < 12, marital_status == "married") %>%
+summarise(count = n())
+girls_married_count
+```
+
+
